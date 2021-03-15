@@ -14,15 +14,16 @@ def index(request):
         'advantages': advantages,
         'descriptions': descriptions,
     }
-    count = MainPagePhoto.objects.all().count()
-    if count == 1:
-        main_page_photo = MainPagePhoto.objects.all().latest('id')
-        context['main_page_photo'] = main_page_photo
-    elif count > 1:
-        main_page_photos = MainPagePhoto.objects.all()[:len(MainPagePhoto.objects.all())-1]
-        main_page_photo_latest = MainPagePhoto.objects.all().latest('id')
-        context['main_page_photos'] = main_page_photos
-        context['main_page_photo_latest'] = main_page_photo_latest
+    if MainPagePhoto.objects.all():
+        count = MainPagePhoto.objects.all().count()
+        if count == 1:
+            main_page_photo = MainPagePhoto.objects.all().latest('id')
+            context['main_page_photo'] = main_page_photo
+        elif count > 1:
+            main_page_photos = MainPagePhoto.objects.all()[:len(MainPagePhoto.objects.all())-1]
+            main_page_photo_latest = MainPagePhoto.objects.all().latest('id')
+            context['main_page_photos'] = main_page_photos
+            context['main_page_photo_latest'] = main_page_photo_latest
 
     return render(request, 'about/index.html', context)
 
@@ -61,8 +62,13 @@ def contacts(request):
 
     else:
         return HttpResponse('Неверный запрос')
-    contact_info = Contacts.objects.all().latest('id')
-    context = {'contact_info': contact_info, 'form': form}
+        
+    context = {'form': form}  
+    if Contacts.objects.all():
+        contact_info = Contacts.objects.all().latest('id')
+        context['contact_info'] = contact_info
+    
+    
 
     return render(request, 'about/contacts.html', context)
 
