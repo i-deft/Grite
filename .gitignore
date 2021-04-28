@@ -1,4 +1,6 @@
 /.idea/
 /about/__pycache__/
+/about/migrations/
 /Grite/__pycache__/
 /products/__pycache__/
+/productst/migrations/
